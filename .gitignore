@@ -1,5 +1,7 @@
 ###
 # Unity3D folders and files
+*.log
+Logs*
 ###
 /[Aa]ssets/AssetStoreTools*
 /[Bb]uild/
