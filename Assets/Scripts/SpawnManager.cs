@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +23,7 @@ public class SpawnManager : MonoBehaviour
     {
         var posToSpawn = new Vector3(Random.Range(-8f, 8f), 7, 0);
         var newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
-        newEnemy.transform.parent = _enemyContainer.transform;
+        newEnemy.transform.SetParent(_enemyContainer.transform);
         yield return new WaitForSeconds(5.0f);
         _spawnEnemyRoutine = SpawnEnemyRoutine();
         StartCoroutine(_spawnEnemyRoutine);

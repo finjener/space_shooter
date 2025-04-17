@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         //damage the player
         //destroy us
 
-        if(other.tag == "Player")
+        if(other.CompareTag("Player"))
         {
             //damage player
             Player player = other.transform.GetComponent<Player>();
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (other.tag == "Laser")
+        if (other.CompareTag("Laser"))
         {
             Destroy(other.gameObject);
             Destroy(this.gameObject);

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -25,7 +25,15 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0, -4, 0);
-        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        GameObject spawnManagerObj = GameObject.Find("Spawn_Manager");
+        if (spawnManagerObj != null)
+        {
+            _spawnManager = spawnManagerObj.GetComponent<SpawnManager>();
+        }
+        else
+        {
+            Debug.LogError("Spawn_Manager GameObject not found!");
+        }
         var trs = gameObject.transform;
         _inputComponent = new PlayerInputComponent(ref trs, _speed);
         if(_spawnManager == null)
@@ -40,9 +48,9 @@ public class Player : MonoBehaviour
     {
         _inputComponent.Tick();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_inputComponent.FirePressed)
         {
-            FireLaser(); //Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            FireLaser(); 
         }
 
         
@@ -50,17 +58,18 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate;
-
-        if( _isTripleShotActive == true)
+        if (Time.time > _canFire)
         {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            _canFire = Time.time + _fireRate;
+            if (_isTripleShotActive)
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            }
         }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }
-
     }
 
     public void Damage()
